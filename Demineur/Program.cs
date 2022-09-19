@@ -4,15 +4,43 @@ Tile[,] field = new Tile[10, 10];
 FillBombs(field, 10);
 DisplayField(field);
 
-
-while(true)
+(int x, int y) = (0, 0);
+while (true)
 {
-    Console.SetCursorPosition(0, 0);
-    int x = int.Parse(Console.ReadLine() ?? "0");
-    int y = int.Parse(Console.ReadLine() ?? "0");
+    (x, y) = Move(field, x, y);
 
     CheckTile(field, x, y);
     DisplayField(field);
+}
+
+(int x, int y) Move(Tile[,] field, int x, int y)
+{
+    ConsoleKey? key = null;
+    while(key != ConsoleKey.Spacebar)
+    {
+        Console.SetCursorPosition(x * 2 + 5, y + 2);
+        key = Console.ReadKey(true).Key;
+        switch(key)
+        {
+            case ConsoleKey.UpArrow:
+                if(y > 0)
+                    y--;
+                break;
+            case ConsoleKey.DownArrow:
+                if(y < field.GetLength(1) - 1)
+                    y++;
+                break;
+            case ConsoleKey.LeftArrow:
+                if(x > 0)
+                    x--;
+                break;
+            case ConsoleKey.RightArrow:
+                if(x < field.GetLength(0) - 1)
+                    x++;
+                break;
+        }
+    }
+    return (x, y);
 }
 
 void CheckTile(Tile[,] field, int x, int y)
